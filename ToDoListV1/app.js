@@ -6,43 +6,35 @@ app.set('view engine', 'ejs');
 
 
 var a = new Date() ;
+var options = {
+  weekday:'long',
+  year: 'numeric',
+  month:'long',
+  day: 'numeric'
+};
+var fulDate = a.toLocaleDateString("en-US", options);
 
 app.use( express.static(path.join(__dirname, 'public')));
 
  app.get("/", function(req,res)
  {var currentDay = a.getDay();
   var nameOfDay;
-  switch (currentDay)
-  {
-  case 0 : nameOfDay = "sunday"
-  break;
-  case 1 : nameOfDay = "monday"
-  break;
-  case 2 : nameOfDay =  "tueday"
-  break;
-  case 3 : nameOfDay = " wesnday"
-  break;
-  case 4 : nameOfDay = "thursday"
-  break;
-  case 5 : nameOfDay = "friday"
-  break;
-  case 6 : nameOfDay = "saturday"
-  break;
-  default:
-    nameOfDay="oops"
-    break;
-  }
-  console.log("current day is " + nameOfDay );
-  res.render('list', {dayName: nameOfDay });
+  
+  
+  var kindOfDay;
+
+ 
   if (a.getDay() >= 4 && a.getDay()<=6)
   {
-    res.render('list', {kindOfDay: 'weekend' , dayName: nameOfDay, dayNum: currentDay});
+    kindOfDay = "weekend";
+    res.render('list', { dayNum: currentDay, dayName: fulDate , kindOfDay: kindOfDay});
   }   
   else
   {
-    res.render('list', {kindOfDay: 'workday' ,dayName: nameOfDay ,dayNum: currentDay});
+    kindOfDay = "workday";
+    res.render('list', {dayNum: currentDay, dayName: fulDate, kindOfDay: kindOfDay});
   }
- 
+
  });
 
 
@@ -76,4 +68,5 @@ app.use( express.static(path.join(__dirname, 'public')));
    console.log("cuurent time: "+ ah+ ":"+a.getMinutes()+":"+a.getSeconds()+b);
    console.log("server started at port 3000");
    console.log("<********************************************************>");
+   console.log("full date is: "+fulDate);
  });
