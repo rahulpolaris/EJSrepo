@@ -6,7 +6,7 @@ html {
 }
 
 h1 {
-  color: #fff;
+  color: rgb(185, 26, 248);
   padding: 10px;
 }
 
@@ -57,15 +57,14 @@ form {
 }
 
 button {
-  min-height: 50px;
-  width: 50px;
-  border-radius: 50%;
-  border-color: transparent;
+ 
+  border-radius: 100px;
+  border-color: rgb(231, 15, 15);
   background-color: #A683E3;
   color: #fff;
   font-size: 30px;
   padding-bottom: 6px;
-  border-width: 0;
+  border-width: 0px;
 }
 
 input[type="text"] {

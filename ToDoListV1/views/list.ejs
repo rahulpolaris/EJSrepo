@@ -7,30 +7,37 @@
     <link href= "assets/styles.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-  <h1>today is:<strong><%=dayName %></strong></h1>
+  <h1 class = "box" id = "heading">today is:<strong><%=dayName %></strong></h1>
   <% if( dayNum >= 4){  %>
-  <h1 style="color:red">weekend</h1>
+  <h1 style="color:red" class = "box" id = "heading">weekend</h1>
   <% }else{ %>
-    <h1 style="color:cornflowerblue">workday</h1>
+    <h1 style="color:cornflowerblue" class = "box" id = "heading">workday</h1>
     <%} %>   
 
-    <form action="/" method = "post">
-        <input type="text" name = "task" placeholder="enter task">
-        <input type="text" name = "timelog" value="<%=dayName %>">
-        <input type="text" name = "clocklog" value= "<%=timeName %>">
-        <button type="submit">add</button>
-    </form>
+<div class="box ">
    
-    <ul>
-        <li>task1</li>
-        <li>task2`</li>
-        <li>task3</li>
-        <li>task4</li>
+    
         <% for(var i = 0; i< newTask.length; i++){ %>
-        <li><%= newTask[i].taskjsn %></li>  
+            <div class="item">
+            <input type="checkbox" >
+        <p ><%= newTask[i].taskjsn %>  </p>
+            </div>
+        
        <% } %>
 
-    </ul>
+    
+        
+      
+       <form action="/" method = "post" class="item ">
+        <input type="text" name = "task" placeholder="enter task" autocomplete="off">
+        <input type="text" name = "timelog" value="<%=dayName %>"style="display: none;">
+        <input type="text" name = "clocklog" value= "<%=timeName %>" style="display: none;">
+        <button type="submit">+</button>
+       </form>
+   
+</div>
+
+    
        
        
 </body>
