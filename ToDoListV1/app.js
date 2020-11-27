@@ -15,6 +15,7 @@ var options = {
 var fulDate = a.toLocaleDateString("en-US", options);
 
 app.use( express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.urlencoded({extended: true}));
 
  app.get("/", function(req,res)
  {var currentDay = a.getDay();
@@ -35,6 +36,13 @@ app.use( express.static(path.join(__dirname, 'public')));
     res.render('list', {dayNum: currentDay, dayName: fulDate, kindOfDay: kindOfDay});
   }
 
+ });
+
+ app.post("/", function(req,res)
+ {
+   var task = req.body.task;
+   var timeLog = req.body.timelog;
+   console.log("task and timelog is:"+ task + timeLog);
  });
 
 

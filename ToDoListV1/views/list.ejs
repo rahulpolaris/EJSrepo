@@ -13,7 +13,20 @@
   <% }else{ %>
     <h1 style="color:cornflowerblue"><%= kindOfDay %></h1>
     <%} %>   
+
+    <form action="/" method = "post">
+        <input type="text" name = "task" placeholder="enter task">
+        <input type="text" name = "timelog" value="<%=dayName %>">
+        <button type="submit">add</button>
+    </form>
    
+    <ul>
+        <li>task1</li>
+        <li>task2`</li>
+        <li>task3</li>
+        <li>task4</li>
+
+    </ul>
        
        
 </body>
