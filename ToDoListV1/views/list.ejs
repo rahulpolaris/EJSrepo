@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link href= "assets/style.css" rel="stylesheet" type="text/css" />
+    <link href= "assets/styles.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
   <h1>today is:<strong><%=dayName %></strong></h1>
   <% if( dayNum >= 4){  %>
-  <h1 style="color:red"><%= kindOfDay %></h1>
+  <h1 style="color:red">weekend</h1>
   <% }else{ %>
-    <h1 style="color:cornflowerblue"><%= kindOfDay %></h1>
+    <h1 style="color:cornflowerblue">workday</h1>
     <%} %>   
 
     <form action="/" method = "post">
