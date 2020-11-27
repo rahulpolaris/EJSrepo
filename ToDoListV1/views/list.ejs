@@ -17,6 +17,7 @@
     <form action="/" method = "post">
         <input type="text" name = "task" placeholder="enter task">
         <input type="text" name = "timelog" value="<%=dayName %>">
+        <input type="text" name = "clocklog" value= "<%=timeName %>">
         <button type="submit">add</button>
     </form>
    
@@ -26,7 +27,7 @@
         <li>task3</li>
         <li>task4</li>
         <% for(var i = 0; i< newTask.length; i++){ %>
-        <li><%= newTask[i] %></li>  
+        <li><%= newTask[i].taskjsn %></li>  
        <% } %>
 
     </ul>

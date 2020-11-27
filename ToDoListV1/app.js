@@ -13,6 +13,7 @@ var options = {
   day: 'numeric'
 };
 var fulDate = a.toLocaleDateString("en-US", options);
+var fulTime = a.toLocaleTimeString("en-US")
 var task;
 var timeLog;
 var taskArray = [];
@@ -31,7 +32,7 @@ app.use(bodyParser.urlencoded({extended: true}));
  
   
     kindOfDay = "workday";
-    res.render('list', {dayNum: currentDay, dayName: fulDate, kindOfDay: kindOfDay, newTask: taskArray});
+    res.render('list', {dayNum: currentDay, dayName: fulDate, kindOfDay: kindOfDay, newTask: taskArray, timeName: fulTime});
   
 
  });
@@ -41,7 +42,8 @@ app.use(bodyParser.urlencoded({extended: true}));
     task = req.body.task;
     timeLog = req.body.timelog;
    console.log("task and timelog is:"+ task + "  "+timeLog);
-   taskArray.push( task);
+   taskJson = { taskjsn:task, tasktime:timeLog}
+   taskArray.push( taskJson);
    console.log("task array is " + taskArray)
    res.redirect("/");
  });
@@ -78,4 +80,5 @@ app.use(bodyParser.urlencoded({extended: true}));
    console.log("server started at port 3000");
    console.log("<********************************************************>");
    console.log("full date is: "+fulDate);
+   console.log("full time is: "+ fulTime);
  });
