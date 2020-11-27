@@ -13,6 +13,10 @@ var options = {
   day: 'numeric'
 };
 var fulDate = a.toLocaleDateString("en-US", options);
+var task;
+var timeLog;
+var taskArray = [];
+var taskJson;
 
 app.use( express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -25,24 +29,21 @@ app.use(bodyParser.urlencoded({extended: true}));
   var kindOfDay;
 
  
-  if (a.getDay() >= 4 && a.getDay()<=6)
-  {
-    kindOfDay = "weekend";
-    res.render('list', { dayNum: currentDay, dayName: fulDate , kindOfDay: kindOfDay});
-  }   
-  else
-  {
+  
     kindOfDay = "workday";
-    res.render('list', {dayNum: currentDay, dayName: fulDate, kindOfDay: kindOfDay});
-  }
+    res.render('list', {dayNum: currentDay, dayName: fulDate, kindOfDay: kindOfDay, newTask: taskArray});
+  
 
  });
 
  app.post("/", function(req,res)
  {
-   var task = req.body.task;
-   var timeLog = req.body.timelog;
-   console.log("task and timelog is:"+ task + timeLog);
+    task = req.body.task;
+    timeLog = req.body.timelog;
+   console.log("task and timelog is:"+ task + "  "+timeLog);
+   taskArray.push( task);
+   console.log("task array is " + taskArray)
+   res.redirect("/");
  });
 
 
