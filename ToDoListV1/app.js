@@ -14,10 +14,10 @@ var options = {
 };
 var fulDate = a.toLocaleDateString("en-US", options);
 var fulTime = a.toLocaleTimeString("en-US")
-var task;
-var timeLog;
+
 var taskArray = [];
 var taskJson;
+var workArray = [];
 
 app.use( express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -25,22 +25,28 @@ app.use(bodyParser.urlencoded({extended: true}));
  app.get("/", function(req,res)
  {var currentDay = a.getDay();
   var nameOfDay;
-  
-  
   var kindOfDay;
+  var pageName = "";
+  if (currentDay >= 4 )
+  {
+    kindOfDay = "weekend";
+  }
+  else
+  {
+    kindOfDay="workday";
+  }
+console.log("current day is: "+ currentDay);
 
- 
-  
-    kindOfDay = "workday";
-    res.render('list', {dayNum: currentDay, dayName: fulDate, kindOfDay: kindOfDay, newTask: taskArray, timeName: fulTime});
+  res.render('list', {dayNum: currentDay, dayName: fulDate, kindOfDay: kindOfDay, newTask: taskArray, timeName: fulTime, nameOfPage:pageName});
+  });
   
 
- });
+
 
  app.post("/", function(req,res)
  {
-    task = req.body.task;
-    timeLog = req.body.timelog;
+   var task = req.body.task;
+   var timeLog = req.body.timelog;
    console.log("task and timelog is:"+ task + "  "+timeLog);
    taskJson = { taskjsn:task, tasktime:timeLog}
    taskArray.push( taskJson);
@@ -49,6 +55,31 @@ app.use(bodyParser.urlencoded({extended: true}));
  });
 
 
+
+
+ app.get("/working", function(req,res)
+ {var currentDay = a.getDay();
+  var nameOfDay; 
+  var kindOfDay;
+
+ 
+    var pageName = "working"
+    kindOfDay = "Work List";
+    res.render('list', {dayNum: currentDay, dayName: fulDate, kindOfDay: kindOfDay, newTask: workArray, timeName: fulTime,  nameOfPage:pageName});
+  
+
+ });
+
+ app.post("/working", function(req,res)
+ {
+   var task = req.body.task;
+   var timeLog = req.body.timelog;
+   console.log("task and timelog is:"+ task + "  "+timeLog);
+   taskJson = { taskjsn:task, tasktime:timeLog}
+   workArray.push( taskJson);
+   console.log("task array is " + taskArray)
+   res.redirect("/working");
+ });
 
 
 
