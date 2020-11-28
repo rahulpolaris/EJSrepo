@@ -29,11 +29,11 @@
     
         
       
-       <form action="/<%=nameOfPage%>" method = "post" class="item ">
+       <form action="/" method = "post" class="item ">
         <input type="text" name = "task" placeholder="enter task" autocomplete="off">
         <input type="text" name = "timelog" value="<%=dayName %>"style="display: none;">
         <input type="text" name = "clocklog" value= "<%=timeName %>" style="display: none;">
-        <button type="submit">+</button>
+        <button type="submit" name ="listButton" value="<%=kindOfDay%>">+</button>
 
        </form>
    

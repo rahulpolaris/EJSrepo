@@ -47,12 +47,25 @@ console.log("current day is: "+ currentDay);
  {
    var task = req.body.task;
    var timeLog = req.body.timelog;
+   var buttonValue = req.body.listButton;
    console.log("task and timelog is:"+ task + "  "+timeLog);
    taskJson = { taskjsn:task, tasktime:timeLog}
-   taskArray.push( taskJson);
-   console.log("task array is " + taskArray)
-   res.redirect("/");
- });
+   if (buttonValue == "Work List")
+   {
+    workArray.push( taskJson);
+    console.log("work array is " + workArray)
+    res.redirect("/working");
+
+   }
+   else{
+    taskArray.push( taskJson);
+    console.log("task array is " + taskArray)
+    res.redirect("/");
+   }
+
+
+   
+  });
 
 
 
@@ -70,16 +83,7 @@ console.log("current day is: "+ currentDay);
 
  });
 
- app.post("/working", function(req,res)
- {
-   var task = req.body.task;
-   var timeLog = req.body.timelog;
-   console.log("task and timelog is:"+ task + "  "+timeLog);
-   taskJson = { taskjsn:task, tasktime:timeLog}
-   workArray.push( taskJson);
-   console.log("task array is " + taskArray)
-   res.redirect("/working");
- });
+ 
 
 
 
