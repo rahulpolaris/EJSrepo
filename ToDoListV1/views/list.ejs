@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href= "assets/styles.css" rel="stylesheet" type="text/css" />
-</head>
-<body>
+<%- include("header") -%>
   <h1 class = "box" id = "heading"><strong><%=dayName %></strong></h1>
   <% if( dayNum >= 4){  %>
   <h1 style="color:red" class = "box" id = "heading"><%=kindOfDay%></h1>
@@ -41,9 +33,8 @@
 
     
        
-       
-</body>
-</html>
+<%- include("footer") -%>      
+
 
 
 
