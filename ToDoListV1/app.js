@@ -7,7 +7,7 @@ app.set('view engine', 'ejs');
 
 
 
-var fulDate = date.getDate();
+const fulDate = date.getDate();
 
 
 var taskArray = [];
@@ -19,7 +19,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 
  app.get("/", function(req,res)
  {var currentDay = date.getDayy();
-  var nameOfDay;
+  
   var kindOfDay;
   var pageName = "";
   if (currentDay >= 4 )
@@ -67,7 +67,7 @@ console.log("current day is: "+ currentDay);
 
  app.get("/working", function(req,res)
  {var currentDay = date.getDayy();
-  var nameOfDay; 
+  
   var kindOfDay;
 
  
