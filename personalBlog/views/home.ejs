@@ -1,4 +1,23 @@
 <%- include("partials/header") -%>
 <h1>home</h1>
 <p><%=pageContent%></p>
+
+
+
+<% contentArrays.forEach(function(contentArray){ %>
+<li><b><%= contentArray.blogTitle %></b>
+<%= contentArray.blogMessage %></li>
+
+<% }) %>
+
+
+
+
+
+
+
+
+
+
+
 <%- include("partials/footer") -%>

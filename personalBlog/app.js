@@ -23,8 +23,8 @@ app.use(express.static("public"));
 app.get("/",function(req,res)
 {
   let a = "home"
-res.render(a, {foo: "home", pageContent: homeStartingContent});
-console.log(req);
+res.render(a, {foo: "home", pageContent: homeStartingContent, contentArrays: blogPostArray});
+
 console.log("this should be path"+req.route.path)
 console.log("this should be id: "+req.query.id)
 
@@ -40,7 +40,7 @@ app.get("/about",function(req,res)
 {
   let a = "about"
 res.render(a, {foo: "home", pageContent: aboutStartingContent});
-console.log(req);
+
 console.log("this should be path"+req.route.path)
 console.log("this should be id: "+req.query.id)
 });
@@ -51,7 +51,7 @@ app.get("/contact",function(req,res)
 {
   let a = "contact"
 res.render(a, {foo: "home", pageContent: contactStartingContent});
-console.log(req);
+
 console.log("this should be path"+req.route.path)
 console.log("this should be id: "+req.query.id)
 });
@@ -63,7 +63,7 @@ app.get("/compose",function(req,res)
 {
   let a = "compose"
 res.render(a);
-// console.log(req);
+
 console.log("this should be path"+req.route.path)
 console.log("this should be id: "+req.query.id)
 
@@ -79,7 +79,9 @@ console.log("this should be id: "+req.query.id)
     blogMessage: req.body.blog,
     blogTitle: req.body.title
   }
+  blogPostArray.push(blogPost);
   console.log("message: "+ blogPost.blogMessage);
+  res.redirect("/");
 
  });
 
