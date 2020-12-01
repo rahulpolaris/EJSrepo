@@ -6,7 +6,7 @@
 
 <% shortBlogs.forEach(function(shortBlog){ %>
 <h4><b><%= shortBlog.shortTitle %></b></h4>
-<p><%= shortBlog.shortMessage %></p>
+<p><%= shortBlog.shortMessage %> <a href="/post/<%= shortBlog.shortTitle %>">Read more</a></p>
 
 <% }) %>
 

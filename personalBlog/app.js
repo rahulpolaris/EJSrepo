@@ -13,6 +13,7 @@ const contactStartingContent = "Scelerisque eleifend donec pretium vulputate sap
 
 const app = express();
 const blogPostArrays = [];
+var shortBlogs=[];
 var pmtr;
 
 app.set('view engine', 'ejs');
@@ -25,15 +26,16 @@ app.use(express.static("public"));
 
 //rendering home page.................................
 app.get("/",function(req,res)
-{ var shortBlogs=[];
+{ 
+  var shortBlogs=[];
   let a = "home"
 
 blogPostArrays.forEach((blogPostArray)=>
 {
-  var shortPost=
+ var shortPost=
   {
     shortTitle: blogPostArray.blogTitle,
-    shortMessage: truncate(blogPostArray.blogMessage,{'length':35})
+    shortMessage: truncate(blogPostArray.blogMessage,{'length':55})
   }
   shortBlogs.push(shortPost);
 });
