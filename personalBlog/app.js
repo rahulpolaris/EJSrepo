@@ -10,7 +10,9 @@ const aboutStartingContent = "Hac habitasse platea dictumst vestibulum rhoncus e
 const contactStartingContent = "Scelerisque eleifend donec pretium vulputate sapien. Rhoncus urna neque viverra justo nec ultrices. Arcu dui vivamus arcu felis bibendum. Consectetur adipiscing elit duis tristique. Risus viverra adipiscing at in tellus integer feugiat. Sapien nec sagittis aliquam malesuada bibendum arcu vitae. Consequat interdum varius sit amet mattis. Iaculis nunc sed augue lacus. Interdum posuere lorem ipsum dolor sit amet consectetur adipiscing elit. Pulvinar elementum integer enim neque. Ultrices gravida dictum fusce ut placerat orci nulla. Mauris in aliquam sem fringilla ut morbi tincidunt. Tortor posuere ac ut consequat semper viverra nam libero.";
 
 const app = express();
-const blogPostArray = [];
+const blogPostArrays = [];
+var pmtr;
+
 app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({extended: true}));
@@ -23,7 +25,7 @@ app.use(express.static("public"));
 app.get("/",function(req,res)
 {
   let a = "home"
-res.render(a, {foo: "home", pageContent: homeStartingContent, contentArrays: blogPostArray});
+res.render(a, {foo: "home", pageContent: homeStartingContent, contentArrays: blogPostArrays});
 
 console.log("this should be path"+req.route.path)
 console.log("this should be id: "+req.query.id)
@@ -67,9 +69,32 @@ res.render(a);
 console.log("this should be path"+req.route.path)
 console.log("this should be id: "+req.query.id)
 
+});
 
+
+
+
+//rendering post page.....................
+app.get("/post/:topic",(req,res)=>
+{  
+  var compareParam = 0 ;
+  pmtr = req.params.topic;
+  console.log("this is the parameter:  >"+pmtr);
+  // const result = blogPostArrays.find(({blogTitle})=>{blogTitle==="football";});
+  blogPostArrays.forEach((blogPostArray)=>{
+    if(blogPostArray.blogTitle === pmtr)
+    {
+      compareParam = 1;
+    }
 
 });
+if(compareParam){ console.log("parameter found");}
+else{console.log("parameter not found");}
+
+ 
+});
+
+
 
 
 //form data collection from...compose page........
@@ -79,8 +104,9 @@ console.log("this should be id: "+req.query.id)
     blogMessage: req.body.blog,
     blogTitle: req.body.title
   }
-  blogPostArray.push(blogPost);
+  blogPostArrays.push(blogPost);
   console.log("message: "+ blogPost.blogMessage);
+  console.log(blogPostArrays);
   res.redirect("/");
 
  });
@@ -101,4 +127,7 @@ console.log("this should be id: "+req.query.id)
 app.listen(3000, function() {
   console.log("Server started on port 3000");
   console.log("current time is: "+date.getTime());
+  // const array = [0,1,,,,5,6];
+  // array.find(function(volu, index) {
+  //   console.log('Visited index ', index, ' with value ', volu);  });  
 });
