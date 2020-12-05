@@ -10,7 +10,7 @@ app.set('view engine', 'ejs');
 const fulDate = date.getDate();
 
 
-var taskArray = [];
+var taskArray = [{taskjsn:'Riding'}, {taskjsn:'surfing'},{taskjsn:'breakfast'}];
 var taskJson;
 var workArray = [];
 

@@ -57,7 +57,7 @@ form {
 }
 
 button {
-  max-height:50px;
+  min-height:50px;
   width: 50px;
   border-radius: 100px;
   border-color: rgb(231, 15, 15);
