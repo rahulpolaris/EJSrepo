@@ -2,12 +2,22 @@ const express = require('express');
 const bodyParser =  require('body-parser');
 const path = require ('path');
 const app = express();
+const mongoose = require('mongoose')
 const date = require(__dirname + "/date.js")
 app.set('view engine', 'ejs');
 
 
+mongoose.connect("mongodb://localhost:27017/toDoListDB", {useNewUrlParser: true, useUnifiedTopology: true},()=>{console.log("connected to database")});
 
 const fulDate = date.getDate();
+
+const itemSchema = new mongoose.Schema({
+  // title: {type: String},
+  listItem :{type:String, required: "Title must be entered"}
+})
+ const Item = new mongoose.model("Item",itemSchema);
+
+
 
 
 var taskArray = [{taskjsn:'Riding'}, {taskjsn:'surfing'},{taskjsn:'breakfast'}];
