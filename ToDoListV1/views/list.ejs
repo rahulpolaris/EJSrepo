@@ -1,6 +1,13 @@
 <%- include("header") -%>
+
+    <% if (kindOfDay == "Work List"){ %>
+      <a href="/" class="box">back to main</a>
+   <% }else{ %>
+      <a href="/working" class="box">workList</a>
+   <% } %>
+
   <h1 class = "box" id = "heading"><strong><%=dayName %></strong></h1>
-  <% if( dayNum >= 4){  %>
+  <% if( dayNum >= 4|| dayNum == 0){  %>
   <h1 style="color:red" class = "box" id = "heading"><%=kindOfDay%></h1>
   <% }else{ %>
     <h1 style="color:rgb(104, 235, 64)" class = "box" id = "heading"><%=kindOfDay%></h1>
@@ -10,13 +17,13 @@
 <div class="box ">
    
     
-        <% for(var i = 0; i< newTask.length; i++){ %>
+        <% newTasks.forEach((newTask)=>{ %>
             <div class="item">
             <input type="checkbox" >
-        <p ><%= newTask[i].taskjsn %>  </p>
+        <p ><%= newTask.taskjsn %>  </p>
             </div>
         
-       <% } %>
+       <% }) %>
 
     
         
