@@ -172,22 +172,25 @@ Item.find({},(err, dbitems)=>
 
    if (buttonValue == "Work List")
    {
-    workArray.push( taskJson);
+    // workArray.push( taskJson);
     console.log("work array is " + workArray)
+    const postMainItem = new Item({ taskjsn: task, buttontype: buttonValue});
+    postMainItem.save();
     res.redirect("/working");
-    const postMainItem = new Item({ taskjsn: task, buttontype: buttonValue});
-    Item.insertOne()
-
    }
-   else{
-    // taskArray.push( taskJson);
-    console.log("task array is " + taskArray)
-    res.redirect("/");
-    const postMainItem = new Item({ taskjsn: task, buttontype: buttonValue});
+  else
+  {
+   // taskArray.push( taskJson);
+   console.log("task array is " + taskArray)
+   const postMainItem = new Item({ taskjsn: task, buttontype: buttonValue});
+   postMainItem.save();
+   res.redirect("/");
+  }
+
+ });
+
     
-   }
-
-  });
+    
 
    
 
@@ -195,8 +198,8 @@ Item.find({},(err, dbitems)=>
 
 
  app.get("/working", function(req,res)
- {var currentDay = date.getDayy();
-  
+ {
+  var currentDay = date.getDayy();
   var kindOfDay;
   Item.find({},(err,dbitems)=>
   {
@@ -213,17 +216,42 @@ Item.find({},(err, dbitems)=>
       
     });
   })
+  var pageName = "working"
+  kindOfDay = "Work List";
+  res.render('list', {dayNum: currentDay, dayName: fulDate, kindOfDay: kindOfDay, newTasks: workArray, 
+  nameOfPage:pageName});
+});
+  
+
+
+
+
+
+app.post("/delete",(req,res)=>
+{
+  console.log(req.body.listCheckBox)
+  Item.findByIdAndDelete(req.body.listCheckBox,function(err)
+  {
+    if(err){console.log(err)}
+    else
+    {
+      console.log("successfully deleted")
+      res.redirect("/")
+    }
+  })
+})
 
  
-    var pageName = "working"
-    kindOfDay = "Work List";
-    res.render('list', {dayNum: currentDay, dayName: fulDate, kindOfDay: kindOfDay, newTasks: workArray, 
-       nameOfPage:pageName});
-      });
   
 
 
  
+
+
+
+
+
+
 
 
 

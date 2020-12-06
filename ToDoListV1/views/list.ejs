@@ -16,14 +16,20 @@
 
 <div class="box ">
    
-    
+          
         <% newTasks.forEach((newTask)=>{ %>
+          
             <div class="item">
-            <input type="checkbox" >
-        <p ><%= newTask.taskjsn %>  </p>
+              <form action="/delete" class="item" method="post">
+              
+                <input type="checkbox" value="<%= newTask._id %>" onChange="this.form.submit()" name="listCheckBox">
+                <p ><%= newTask.taskjsn %>   </p>
+              </form>
             </div>
+          
         
        <% }) %>
+      
 
     
         
