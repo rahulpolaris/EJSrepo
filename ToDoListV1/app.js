@@ -16,8 +16,17 @@ const itemSchema = new mongoose.Schema({
   taskjsn :{type:String, required: "Title must be entered"},
   buttontype:{type:String}
 })
+const listSchema = new mongoose.Schema(
+  {
+    listName: {type: String, required: 'enter list name'},
+    listItems: [itemSchema]
+  })
+
+ const List = new mongoose.model('List',listSchema); 
  const Item = new mongoose.model("Item",itemSchema);
-//here we created item model and schema.......and below a few default items for root
+
+
+//here we created (item and list) model and schema.......and below a few default items for root
 const riding = new Item(
 {
   taskjsn: 'today we ridin',
@@ -147,15 +156,15 @@ Item.find({},(err, dbitems)=>
   //       }
   //     });
     
-   
-    
-      
 })
+});
 
 
-  });
   
   
+
+
+
 
 
 
@@ -197,29 +206,26 @@ Item.find({},(err, dbitems)=>
 
 
 
- app.get("/working", function(req,res)
- {
-  var currentDay = date.getDayy();
+ app.get("/:somelist", function(req,res)
+ { 
+    var currentDay = date.getDayy();
   var kindOfDay;
-  Item.find({},(err,dbitems)=>
+  const parameter = req.params.somelist;
+  if (currentDay >= 4 || currentDay == 0 )
   {
-    dbitems.forEach(dbitem => 
-    {
-      if (dbitem.buttontype == "Work List")
-      {
-         workArray.push(dbitem);
-      }
-      else
-      {
-          console.log("this is current workArray"+ workArray);
-      }
-      
-    });
+    kindOfDay = "weekend";
+  }
+  else
+  {
+    kindOfDay="workday";
+  }
+  Item.find({},(err,dbitems)=>
+  { 
+    if (err){console.log(err)}
+     else{res.render("list",{dayName:fulDate,dayNum:currentDay,kindOfDay:kindOfDay,newTasks:dbitems,nameOfPage:parameter});}
   })
-  var pageName = "working"
-  kindOfDay = "Work List";
-  res.render('list', {dayNum: currentDay, dayName: fulDate, kindOfDay: kindOfDay, newTasks: workArray, 
-  nameOfPage:pageName});
+   
+  
 });
   
 

@@ -1,9 +1,9 @@
 <%- include("header") -%>
 
-    <% if (kindOfDay == "Work List"){ %>
-      <a href="/" class="box">back to main</a>
+    <% if (nameOfPage){ %>
+      <p style="display: inline;"><%=nameOfPage%></p> <a href="/" class="box">back to main</a>
    <% }else{ %>
-      <a href="/working" class="box">workList</a>
+    <p style="display: inline;">home</p> <a href="/working" class="box"><%=nameOfPage%></a>
    <% } %>
 
   <h1 class = "box" id = "heading"><strong><%=dayName %></strong></h1>
@@ -38,7 +38,7 @@
         <input type="text" name = "task" placeholder="enter task" autocomplete="off">
         <input type="text" name = "timelog" value="<%=dayName %>"style="display: none;">
         
-        <button type="submit" name ="listButton" value="<%=kindOfDay%>">+</button>
+        <button type="submit" name ="listButton" value="<%=nameOfPage%>">+</button>
 
        </form>
    
