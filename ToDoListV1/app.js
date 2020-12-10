@@ -2,14 +2,43 @@ const express = require('express');
 const bodyParser =  require('body-parser');
 const path = require ('path');
 const app = express();
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const { getDayType } = require('./date');
 const date = require(__dirname + "/date.js")
+const lowerCase = require("lodash/lowerCase");
+
 app.set('view engine', 'ejs');
-
-
+app.use( express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.urlencoded({extended: true}));
 mongoose.connect("mongodb://localhost:27017/toDoListDB", {useNewUrlParser: true, useUnifiedTopology: true},()=>{console.log("connected to database")});
 
+
+
 const fulDate = date.getDate();
+var taskArray = [];
+var dbItemArray=[];
+var taskJson;
+var workArray = [];
+
+
+
+// var listObj
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 const itemSchema = new mongoose.Schema({
   // title: {type: String},
@@ -18,7 +47,11 @@ const itemSchema = new mongoose.Schema({
 })
 const listSchema = new mongoose.Schema(
   {
-    listName: {type: String, required: 'enter list name'},
+    listName: {
+      type: String
+      // ,
+      //  required: 'enter list name'
+      },
     listItems: [itemSchema]
   })
 
@@ -26,7 +59,7 @@ const listSchema = new mongoose.Schema(
  const Item = new mongoose.model("Item",itemSchema);
 
 
-//here we created (item and list) model and schema.......and below a few default items for root
+//here we created (item and list) model and schema.......and below a few default items for root(home) list
 const riding = new Item(
 {
   taskjsn: 'today we ridin',
@@ -37,20 +70,51 @@ const swim = new Item(
   taskjsn: 'today we swiming',
   buttontype:" not Work List"
 })
-//now i create a few default items for /working
-const code = new Item(
+//now i create a few default items for /:somelist parameter(express routing)...first some default listItems...then a default list
+const default1 = new Item(
   {
-    taskjsn: 'do some coidng practice',
-    buttontype: 'Work List'
+    taskjsn: 'default item 1',
+    buttontype: this.listName
   })
 
- const project = new Item(
+ const default2 = new Item(
    {
-     taskjsn: 'finish your projects',
-     buttontype: 'Work List'
+     taskjsn: 'default item 2',
+     buttontype: this.listName
      
    })
+// this is a default list model for test
+   const work = new List(
+     {
+       listName: 'work',
+       listItems: [default1,default2]
+     })
+    //  work.save()
+    var defaultItems = [default1,default2]
 
+  
+    function tempTest()
+    { 
+      
+      
+      List.find({},(err,lists)=>
+      {   
+      if (err)
+      {
+        console.log(err)
+      }
+      else
+      {
+        console.log("this is array of lists [] [] [] [] [] [] []");
+        // console.log(lists);
+        listObj = lists;  
+        console.log(listObj + "heheeeeeeeeeeeeeeee")   
+       
+      }
+    })
+        
+
+    }
 
 
 
@@ -59,37 +123,18 @@ const code = new Item(
 
 
 
-var taskArray = [];
-var dbItemArray=[];
 
 
 
 
 
-// we are checking if database is empty or not if empty we insert default items to be displayed in the list
-// if (dbitem.length === 0){
-//   Item.insertMany([riding,swim],function(err){
-//   if(err){
-//     console.log(err)
-//   }
-//   else{
-//     console.log("data added into Items collection")
-//   }
-// })
-// }
-// else{
-//   console.log("no default item was inserted")
-// }
 
 
 
 
 
-var taskJson;
-var workArray = [];
 
-app.use( express.static(path.join(__dirname, 'public')));
-app.use(bodyParser.urlencoded({extended: true}));
+
 
 
 
@@ -100,26 +145,19 @@ app.use(bodyParser.urlencoded({extended: true}));
  {
   var currentDay = date.getDayy();
   var kindOfDay;
-  var pageName = "";
-  if (currentDay >= 4 || currentDay == 0 )
-  {
-    kindOfDay = "weekend";
-  }
-  else
-  {
-    kindOfDay="workday";
-  }
+  var pageName = "home";
+  
+    kindOfDay=date.getDayType();
+  
 console.log("current day is: "+ currentDay);
-
-// here we initiated mongo find method that also checks if list is empty then it inserts default items into that list
+// here we initiated model.prototype.find method that also checks if list is empty, then it inserts default items into that list
 Item.find({},(err, dbitems)=>
 {
-  console.log("here is dbitems"+ dbitems)
-  
+  // console.log("here is dbitems"+ dbitems)
   // res.render('list', {dayNum: currentDay, dayName: fulDate, kindOfDay: kindOfDay, newTasks: dbitems, nameOfPage:pageName});
   if(dbitems.length == 0)
   {
-    Item.insertMany([riding,swim,code,project],function(err)
+    Item.insertMany([riding,swim,default1,default2],function(err)
     {
       if(err){console.log(err)}
       else{console.log("default items inserted    ---------------->[]")}
@@ -128,36 +166,24 @@ Item.find({},(err, dbitems)=>
   }
   else
   {  
-    // dbitems.forEach(dbitem => 
-    //   {
-    //     if (dbitem.buttontype == "Work List")
-    //     {  
-    //       console.log("this is current taskArray"+ taskArray);
-           
-    //     }
-    //     else
-    //     {
-    //       taskArray.push(dbitem);        }
-        
-    //   });
-
+    
     console.log("no item was inserted");
-    res.render('list', {dayNum: currentDay, dayName: fulDate, kindOfDay: kindOfDay, newTasks: dbitems, nameOfPage:pageName})
+    List.find({},(err,listoflists)=>
+    {
+      if(err){console.log(err)}
+      else
+      {
+    res.render('list', {dayNum: currentDay, dayName: fulDate, kindOfDay: kindOfDay, newTasks: dbitems, nameOfPage:pageName, listoflists: listoflists})
+      }
+       })
   }
-  // dbitems.forEach((dbitem) => {
-  //   dbItemArray = dbitem;
+})
+// console.log(listObj + "hoooooooooooohooooooooooooooooo")
+});
+  
+    
 
     
-  //       if(dbitem.buttontype == "Work List"){
-  //        workArray.push(dbitem)
-  //       }
-  //       else{
-  //         taskArray.push(dbitem)
-  //       }
-  //     });
-    
-})
-});
 
 
   
@@ -176,24 +202,36 @@ Item.find({},(err, dbitems)=>
    var timeLog = req.body.timelog;
    var buttonValue = req.body.listButton;
    console.log("task and timelog is:"+ task + "  "+timeLog);
+   console.log("this is button value "+ buttonValue )
    taskJson = { taskjsn:task, tasktime:timeLog};
-   
+   const postMainItem = new Item({ taskjsn: task, buttontype: buttonValue});
 
-   if (buttonValue == "Work List")
+   if (buttonValue == "home")
    {
     // workArray.push( taskJson);
-    console.log("work array is " + workArray)
-    const postMainItem = new Item({ taskjsn: task, buttontype: buttonValue});
+    // console.log("work array is " + workArray)
+    // const postMainItem = new Item({ taskjsn: task, buttontype: buttonValue});
     postMainItem.save();
-    res.redirect("/working");
+    res.redirect("/");
    }
-  else
+  else 
   {
    // taskArray.push( taskJson);
-   console.log("task array is " + taskArray)
-   const postMainItem = new Item({ taskjsn: task, buttontype: buttonValue});
-   postMainItem.save();
-   res.redirect("/");
+   List.findOne({listName: buttonValue}, (err,foundList)=>
+   {
+      //  if(err){console.log(err)}
+      //  else
+      //  {
+         foundList.listItems.push(postMainItem)
+         foundList.save();
+        //  setTimeout(()=>{res.redirect("/lists/"+buttonValue)},1500)
+         res.redirect("/lists/"+buttonValue)
+         
+      //  }
+      console.log("found list is: "+ foundList)
+   }) 
+
+
   }
 
  });
@@ -206,28 +244,100 @@ Item.find({},(err, dbitems)=>
 
 
 
- app.get("/:somelist", function(req,res)
+ app.get("/lists/:somelist", function(req,res)
  { 
     var currentDay = date.getDayy();
-  var kindOfDay;
+  var kindOfDay = date.getDayType();
+  var temp = 0;
+  console.log("bruh this is parameter obj for rooot..----------->"+"xxxxx"+"<---------------")
+  console.log(req.params)
   const parameter = req.params.somelist;
-  if (currentDay >= 4 || currentDay == 0 )
+  console.log("bruh this is parameter for rooot..----------->"+parameter+"<---------------")
+
+ 
+
+    // List.find({},(err,allLists)=>{
+    //   if (allLists.length == 0)
+    //   {
+    //     list.save()
+    //     console.log("Listcollection was empty just saved one")
+    //     res.redirect("/" + parameter)
+
+
+    //   }
+    //   else
+    //   {
+    //     console.log("ListCollection was not empty....[]X")
+    //     res.render("list",{dayName:fulDate,dayNum:currentDay,kindOfDay:kindOfDay,newTasks:[{taskjsn: "work1"},{taskjsn:"work2"}],nameOfPage:parameter})
+
+    //   }
+    // }) 
+     
+     
+  List.findOne({listName: parameter},(err,list)=>
   {
-    kindOfDay = "weekend";
-  }
-  else
-  {
-    kindOfDay="workday";
-  }
-  Item.find({},(err,dbitems)=>
-  { 
-    if (err){console.log(err)}
-     else{res.render("list",{dayName:fulDate,dayNum:currentDay,kindOfDay:kindOfDay,newTasks:dbitems,nameOfPage:parameter});}
-  })
+     if(err)
+     {
+       console.log(err)
+       
+     }
+     else
+     { 
+       if(list)
+       {       
+          console.log("here is that specific list "+parameter + " :------------ ");
+          console.log(list)
+          console.log("specific list")
+          List.find({},(err,listoflists)=>
+          {
+            if(err){console.log(err)}
+            else
+            {
+              res.render("list",{dayName:fulDate,dayNum:currentDay,kindOfDay:kindOfDay,newTasks:list.listItems,nameOfPage:parameter,listoflists:listoflists})
+            }
+          })
+         
+
+        }              
+       else
+       {
+        console.log("specific list "+parameter+" doesnt XXXXXXX ........EXIST.........XXXX")
+        const list = new List(
+          {
+            listName: parameter,
+            listItems: defaultItems
+          })
+          list.save();
+          
+          List.find({},(err,listoflists)=>
+          {
+            if(err){console.log(err)}
+            else
+            {
+              res.render("list",{dayName:fulDate,dayNum:currentDay,kindOfDay:kindOfDay,newTasks:list.listItems,nameOfPage:parameter,listoflists:listoflists})
+            }
+          })
+       }
+     }
+   })
+    
+      
+  
    
+ });
+        
+       
+      
   
-});
-  
+
+
+
+
+
+
+
+
+
 
 
 
@@ -277,7 +387,8 @@ app.post("/delete",(req,res)=>
    console.log("<********************************************************>");
    console.log("full date is:    "+fulDate);
    console.log("current time is: "+ date.getTime());
-   
+  //  tempTest();
+  
   });
    
   

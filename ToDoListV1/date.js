@@ -26,3 +26,16 @@ function getDayy(){
 module.exports.getTime = ()=>{
     return a.toLocaleTimeString("en-US");
 }
+
+////////////////////////////////
+module.exports.getDayType = ()=>
+{
+if (a.getDay >= 4 || a.getDay == 0 )
+  {
+    return "weekend";
+  }
+  else
+  {
+    return "workday";
+  }
+}
