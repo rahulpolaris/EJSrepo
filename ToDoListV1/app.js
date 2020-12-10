@@ -256,23 +256,7 @@ Item.find({},(err, dbitems)=>
 
  
 
-    // List.find({},(err,allLists)=>{
-    //   if (allLists.length == 0)
-    //   {
-    //     list.save()
-    //     console.log("Listcollection was empty just saved one")
-    //     res.redirect("/" + parameter)
 
-
-    //   }
-    //   else
-    //   {
-    //     console.log("ListCollection was not empty....[]X")
-    //     res.render("list",{dayName:fulDate,dayNum:currentDay,kindOfDay:kindOfDay,newTasks:[{taskjsn: "work1"},{taskjsn:"work2"}],nameOfPage:parameter})
-
-    //   }
-    // }) 
-     
      
   List.findOne({listName: parameter},(err,list)=>
   {
@@ -344,8 +328,12 @@ Item.find({},(err, dbitems)=>
 
 
 app.post("/delete",(req,res)=>
-{
+{  const nameOfList = req.body.listName
   console.log(req.body.listCheckBox)
+
+
+  if(nameOfList==='home')
+  {
   Item.findByIdAndDelete(req.body.listCheckBox,function(err)
   {
     if(err){console.log(err)}
@@ -355,6 +343,17 @@ app.post("/delete",(req,res)=>
       res.redirect("/")
     }
   })
+}
+else
+{
+  List.findOneAndUpdate({listName: nameOfList},{$pull:{listItems:{ _id :req.body.listCheckBox}}},(err,foundList)=>
+  {
+    if(!err)
+    {
+      res.redirect("/lists/"+nameOfList)
+    }
+  })
+}
 })
 
  

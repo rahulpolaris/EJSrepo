@@ -2,13 +2,13 @@
    
 
 
-<div class="dropdown">
-  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+<div class="dropdown Dbox">
+  <button class="btn btn-info dropdown-toggle " type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
    Other lists
   </button>
-  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+  <ul class="dropdown-menu " aria-labelledby="dropdownMenuButton">
    <% listoflists.forEach((listoflist)=>{ %>
-      <li><a class="dropdown-item" href="/lists/<%=listoflist.listName%>"><%=listoflist.listName%></a></li>
+      <li><a class="dropdown-item " href="/lists/<%=listoflist.listName%>"><%=listoflist.listName%></a></li>
  <%   })     %>
     
     
@@ -23,21 +23,22 @@
 
 
 
-
+<div class="Dbox">
 
     <% if (nameOfPage != 'home'){ %>
       <p style="display: inline;"><%=nameOfPage%></p> <a href="/" class="box">back to main</a>
    <% }else{ %>
     <p style="display: inline;"><%=nameOfPage%></p> </a>
    <% } %>
+  </div>
 
-  <h1 class = "box" id = "heading"><strong><%=dayName %></strong></h1>
+  <h1 class = "Dbox" id = "heading"><strong><%=dayName %></strong></h1>
   <% if( dayNum >= 4|| dayNum == 0){  %>
-  <h1 style="color:red" class = "box" id = "heading"><%=kindOfDay%></h1>
+  <h1 style="color:red" class = "Dbox" id = "heading"><%=kindOfDay%></h1>
   <% }else{ %>
-    <h1 style="color:rgb(104, 235, 64)" class = "box" id = "heading"><%=kindOfDay%></h1>
+    <h1 style="color:rgb(104, 235, 64)" class = "Dbox" id = "heading"><%=kindOfDay%></h1>
     <%} %>   
-    <h1 class="box">this page is: <%=nameOfPage%></h1>
+    <!-- <h1 class="box">this page is: <%=nameOfPage%></h1> -->
 
 <div class="box ">
    
@@ -48,6 +49,7 @@
               <form action="/delete" class="item" method="post">
               
                 <input type="checkbox" value="<%= newTask._id %>" onChange="this.form.submit()" name="listCheckBox">
+                <input type="hidden" value="<%=nameOfPage%>" name = "listName"> 
                 <p ><%= newTask.taskjsn %>   </p>
               </form>
             </div>

@@ -18,6 +18,14 @@ h1 {
   box-shadow: 5px 5px 15px -5px rgba(0, 0, 0, 0.3);
 }
 
+.Dbox {
+  max-width: 400px;
+  margin: 15px auto 5px;
+  background: white;
+  border-radius: 5px;
+  box-shadow: 5px 5px 15px -5px rgba(0, 0, 0, 0.3);
+}
+
 #heading {
   background-color: #A683E3;
   text-align: center;
@@ -93,4 +101,11 @@ footer {
   color: white;
   color: rgba(0, 0, 0, 0.5);
   text-align: center;
+}
+
+.dropdown-item {
+  border-bottom: lightslategrey 3px solid;
+}
+.dropdown-menu {
+  padding: 0px ;
 }
